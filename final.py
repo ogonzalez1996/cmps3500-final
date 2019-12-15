@@ -5,26 +5,49 @@ ar =[
     ]
 
 def Menu():
+    loop = True
+    while loop:
+        try:
+            print_menu()
+            selection = int(input("Enter Choice: "))
+            if selection==1:
+                spiral_path(ar)
+            elif selection==2:
+                num = int(input("Enter number: "))
+                Moran(num)
+            elif selection ==3:
+                shortWord()
+            elif selection==4:
+                res = int(input("Enter a number to convert to string: "))
+                j = numtoword(res)
+                print (j)
+            elif selection==5:
+                print ("goodbye!")
+                loop = False
+            else:
+                print ("invalid choice number from 1-5")
+        except ValueError:  
+             print("Invalid input chose a number between 1-5")
+
+def print_menu():
     print ("1. Print 2D array in a spiral path")
     print ("2. Determine whether a number is a Harshad number, Moran Number or neither")
     print ("3. Determine the shortest word in a sentence")
     print ("4. Turn a number into a word(s)")
-    selection = int(input("Enter Choice: "))
-    if selection==1:
-        spiral_path(ar)
-    elif selection==2:
-        num = int(input("Enter number: "))
-        Moran(num)
-    elif selection ==3:
-        shortWord()
-    elif selection==4:
-        sel = int(input("Enter a number to convert to string: "))
-        ans = numtoword(sel)
-        print(ans)
-    else :
-        print ("invalid choice")
-        exit 
-
+    print ("5. Exit from the program")
+#helper function for determining Moran Numbers
+def isprime(n):
+    n = abs(int(n))
+    if n < 2:
+        return False
+    if n == 2: 
+        return True    
+    if not n & 1: 
+        return False
+    for x in range(3, int(n**0.5)+1, 2):
+        if n % x == 0:
+            return False
+    return True
 
 def spiral_path(ar):
 
@@ -76,42 +99,24 @@ def Moran(input):
     else:    
         print(str(n) + " ==> Neither"); 
 
-
 def shortWord():
     sent = input("Enter sentence to determine shortest word: ")
     words =  sent.split()
     m = min(words, key=len)
-    print(m)
+    print("The shortest word is " + m)
 
 def numtoword(num):  
     under_20 = ['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen']
     tens = ['Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety']
     above_100 = {100: 'Hundred'}
     if (num > 999 or num < 0):
-       return print("out of bounds - chose something between 0 and 999")
-       
+       return "out of bounds - chose something between 0 and 999"
     if num < 20:
        return under_20[num]
-    	
     if num < 100:
        return tens[(int)(num/10)-2] + ('' if num%10==0 else ' ' + under_20[num%10])
-     
     	# find the appropriate pivot - 'Million' in 3,603,550, or 'Thousand' in 603,550
     pivot = max([key for key in above_100.keys() if key <= num])
      
     return numtoword((int)(num/pivot)) + ' ' + above_100[pivot] + ('' if num%pivot==0 else ' ' + numtoword(num%pivot))
-#determines whether a number is a prime or not, 
-#used to determine Moran Numbers
-def isprime(n):
-    n = abs(int(n))
-    if n < 2:
-        return False
-    if n == 2: 
-        return True    
-    if not n & 1: 
-        return False
-    for x in range(3, int(n**0.5)+1, 2):
-        if n % x == 0:
-            return False
-    return True
 Menu()
