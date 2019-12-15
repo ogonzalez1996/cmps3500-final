@@ -115,7 +115,7 @@ def numtoword(num):
        return under_20[num]
     if num < 100:
        return tens[(int)(num/10)-2] + ('' if num%10==0 else ' ' + under_20[num%10])
-    	# find the appropriate pivot - 'Million' in 3,603,550, or 'Thousand' in 603,550
+    	# append the pivot - 'Hundred;
     pivot = max([key for key in above_100.keys() if key <= num])
      
     return numtoword((int)(num/pivot)) + ' ' + above_100[pivot] + ('' if num%pivot==0 else ' ' + numtoword(num%pivot))
